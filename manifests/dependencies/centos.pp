@@ -1,14 +1,22 @@
 class rvm::dependencies::centos {
 
-  case $::operatingsystemrelease {
-    /^6\..*/: {
-      if ! defined(Package['libcurl-devel']) { package { 'libcurl-devel':      ensure => present } }
-    }
-    /^5\..*/: {
-      if ! defined(Package['autoconf'])     { package { 'autoconf':      ensure => present } }
-    }
-    default: {
-      if ! defined(Package['curl-devel'])    { package { 'curl-devel':      ensure => present } }
+  case $::operatingsystem{
+    /^Amazon*/ {
+        # Amazon Linux doesn't follow the centos version numbering.
+        if ! defined(Package['curl-devel'])    { package { 'curl-devel':      ensure => present } }
+      }
+      default: {
+        case $::operatingsystemrelease {
+          /^6\..*/: {
+            if ! defined(Package['libcurl-devel']) { package { 'libcurl-devel':      ensure => present } }
+          }
+          /^5\..*/: {
+            if ! defined(Package['autoconf'])     { package { 'autoconf':      ensure => present } }
+          }
+          default: {
+            if ! defined(Package['curl-devel'])    { package { 'curl-devel':      ensure => present } }
+          }
+        }
     }
   }
   if ! defined(Package['which'])           { package { 'which':           ensure => present } }
