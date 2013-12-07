@@ -3,7 +3,7 @@ class rvm::dependencies::centos {
   case $::operatingsystem{
     /^Amazon*/: {
         # Amazon Linux doesn't follow the centos version numbering.
-        if ! defined(Package['curl-devel'])    { package { 'curl-devel':      ensure => present } }
+        if ! defined(Package['libcurl-devel'])    { package { 'libcurl-devel':      ensure => present } }
       }
       default: {
         case $::operatingsystemrelease {
